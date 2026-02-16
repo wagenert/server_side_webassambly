@@ -11,8 +11,8 @@ struct KeyValue {
 }
 
 impl component::smartcms::kvstore::Host for KeyValue {
-    fn get(&mut self, key: String) -> String {
-        self.mem.get(&key).cloned().unwrap()
+    fn get(&mut self, key: String) -> Option<String> {
+        self.mem.get(&key).cloned()
     }
 
     fn set(&mut self, key: String, value: String) {
@@ -53,6 +53,11 @@ fn main() {
     )
     .unwrap();
 
-    let app = App::instantiate(&mut store, &component, &linker).unwrap();
-    println!("{:?}", app.call_run(&mut store).unwrap());
+    let app = App::instantiate(&mut store, &component, &linker);
+    match app {
+        Ok(app) => println!("{:?}", app.call_run(&mut store).unwrap()),
+        Err(e) => {
+            eprintln!("Error instantiating component: {e}");
+        }
+    }
 }
