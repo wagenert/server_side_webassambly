@@ -1,4 +1,4 @@
-use wasmtime::component::bindgen;
+use wasmtime::component::{HasSelf, bindgen};
 
 bindgen!({
     path: "./smart_cms.wit",
@@ -47,9 +47,10 @@ fn main() {
 
     let component = wasmtime::component::Component::from_file(&engine, "guest.wasm").unwrap();
     let mut linker = wasmtime::component::Linker::new(&engine);
-    component::smartcms::kvstore::add_to_linker(&mut linker, |state: &mut State| {
-        &mut state.key_value
-    })
+    component::smartcms::kvstore::add_to_linker::<_, HasSelf<_>>(
+        &mut linker,
+        |state: &mut State| &mut state.key_value,
+    )
     .unwrap();
 
     let app = App::instantiate(&mut store, &component, &linker).unwrap();
