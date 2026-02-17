@@ -1,0 +1,1 @@
+ jco componentize greet.js --wit wit/greet.wit --world-name example --out greet.wasm --disable clocks http random fetch-event
