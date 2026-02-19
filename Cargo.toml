@@ -1,3 +1,3 @@
 [workspace]
 resolver = "3"
-members = ["chapter02/hello_world/hello_world_guest", "chapter03/smart_cms/smartcms_test_host", "chapter04/hello_world_wasi/hello_world_wasi_host"]
+members = ["chapter02/hello_world/hello_world_guest", "chapter03/smart_cms/smartcms_test_host", "chapter04/hello_world_wasi/hello_world_wasi_host", "chapter04/smart_cms/smartcms_ml_guest", "chapter04/wasi02/hello_world_wasi02"]

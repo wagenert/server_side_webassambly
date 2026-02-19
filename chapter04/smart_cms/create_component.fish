@@ -1,0 +1,1 @@
+jco componentize guest.rs --wit ../smartcms_test_host/smart_cms.wit --world-name app -o ../smartcms_test_host/guest.wasm --disable all
