@@ -1,4 +1,5 @@
 use wasmtime::component::{HasSelf, bindgen};
+use wasmtime_wasi::WasiCtxView;
 
 bindgen!({
     path: "./smart_cms.wit",
@@ -22,12 +23,26 @@ impl component::smartcms::kvstore::Host for KeyValue {
 
 struct State {
     key_value: KeyValue,
+    wasi: (wasmtime_wasi::WasiCtx, wasmtime_wasi::ResourceTable),
 }
 
 impl State {
     fn new() -> Self {
         Self {
             key_value: KeyValue::default(),
+            wasi: (
+                wasmtime_wasi::WasiCtx::default(),
+                wasmtime_wasi::ResourceTable::default(),
+            ),
+        }
+    }
+}
+
+impl wasmtime_wasi::WasiView for State {
+    fn ctx(&mut self) -> WasiCtxView<'_> {
+        WasiCtxView {
+            ctx: &mut self.wasi.0,
+            table: &mut self.wasi.1,
         }
     }
 }
@@ -39,13 +54,30 @@ impl Default for State {
 }
 
 fn main() {
+    let wasi_table = wasmtime_wasi::ResourceTable::new();
+    let wasi_ctx = wasmtime_wasi::WasiCtxBuilder::new()
+        .preopened_dir(
+            ".",
+            ".",
+            wasmtime_wasi::DirPerms::READ,
+            wasmtime_wasi::FilePerms::READ,
+        )
+        .unwrap()
+        .build();
+
+    let state = State {
+        key_value: KeyValue::default(),
+        wasi: (wasi_ctx, wasi_table),
+    };
+
     let mut config = wasmtime::Config::default();
     config.wasm_component_model(true);
 
     let engine = wasmtime::Engine::new(&config).unwrap();
-    let mut store = wasmtime::Store::new(&engine, State::new());
+    let mut store = wasmtime::Store::new(&engine, state);
 
-    let component = wasmtime::component::Component::from_file(&engine, "guest.wasm").unwrap();
+    let component =
+        wasmtime::component::Component::from_file(&engine, "guest_with_ml.wasm").unwrap();
     let mut linker = wasmtime::component::Linker::new(&engine);
     component::smartcms::kvstore::add_to_linker::<_, HasSelf<_>>(
         &mut linker,

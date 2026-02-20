@@ -1522,6 +1522,7 @@ name = "smartcms_ml_guest"
 version = "0.1.0"
 dependencies = [
  "rand 0.10.0",
+ "wit-bindgen 0.53.1",
 ]
 
 [[package]]
@@ -1529,6 +1530,14 @@ name = "smartcms_test_host"
 version = "0.1.0"
 dependencies = [
  "wasmtime",
+]
+
+[[package]]
+name = "smartcms_test_host_chapter4"
+version = "0.1.0"
+dependencies = [
+ "wasmtime",
+ "wasmtime-wasi",
 ]
 
 [[package]]
