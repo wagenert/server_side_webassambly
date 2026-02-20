@@ -2,7 +2,7 @@ use wasmtime::component::{HasSelf, bindgen};
 use wasmtime_wasi::WasiCtxView;
 
 bindgen!({
-    path: "./smart_cms.wit",
+    path: "./wit/smart_cms.wit",
     world: "app",
 });
 
@@ -79,6 +79,7 @@ fn main() {
     let component =
         wasmtime::component::Component::from_file(&engine, "guest_with_ml.wasm").unwrap();
     let mut linker = wasmtime::component::Linker::new(&engine);
+    wasmtime_wasi::p2::add_to_linker_sync(&mut linker).unwrap();
     component::smartcms::kvstore::add_to_linker::<_, HasSelf<_>>(
         &mut linker,
         |state: &mut State| &mut state.key_value,
