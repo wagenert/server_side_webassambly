@@ -1,0 +1,10 @@
+[package]
+name = "wasi_nn_example"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+image = "0.25.9"
+ndarray = "0.17.2"
+wasi-nn = "0.6.0"
+wit-bindgen = "0.53.1"
