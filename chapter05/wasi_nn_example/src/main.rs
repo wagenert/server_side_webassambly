@@ -1,5 +1,5 @@
 use core::num;
-use image::{ImageReader, imageops::FilterType::Triangle};
+use image::{imageops::FilterType::Triangle, ImageReader};
 use ndarray::Array;
 use std::{env, fs};
 
@@ -16,7 +16,7 @@ fn main() {
     let image_path = env::args().nth(1).expect("Usage: <image_path>");
     let model_data = fs::read("fixture/models/squeezenet1.1-7.onnx").unwrap();
     let graph = GraphBuilder::new(GraphEncoding::Onnx, ExecutionTarget::CPU)
-        .build_from_files([MODEL_PATH])
+        .build_from_files(&[model_data])
         .unwrap();
     let mut exec_context = Graph::init_execution_context(&graph).unwrap();
     let labels_data = fs::read_to_string("fixture/labels/squeezenet1.1-7.txt").unwrap();
