@@ -14,7 +14,7 @@ const MODEL_PATH: &str = "fixture/models/squeezenet1.1-7.onnx";
 
 fn main() {
     let image_path = env::args().nth(1).expect("Usage: <image_path>");
-    let model_data = fs::read("fixture/models/squeezenet1.1-7-onnx").unwrap();
+    let model_data = fs::read("fixture/models/squeezenet1.1-7.onnx").unwrap();
     let graph = GraphBuilder::new(GraphEncoding::Onnx, ExecutionTarget::CPU)
         .build_from_files([MODEL_PATH])
         .unwrap();
