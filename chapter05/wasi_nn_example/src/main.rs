@@ -5,10 +5,12 @@ use std::{env, fs};
 
 use wasi_nn::{ExecutionTarget, Graph, GraphBuilder, GraphEncoding, TensorType};
 
+/*
 wit_bindgen::generate!({
     path: "wit/wasi-nn.wit",
     world: "ml",
 });
+*/
 
 const MODEL_PATH: &str = "fixture/models/squeezenet1.1-7.onnx";
 
