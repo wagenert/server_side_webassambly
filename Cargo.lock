@@ -2204,6 +2204,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "smart-cms"
+version = "0.1.0"
+dependencies = [
+ "wasmcloud-component",
+ "wit-bindgen 0.53.1",
+]
+
+[[package]]
 name = "smartcms_ml_guest"
 version = "0.1.0"
 dependencies = [

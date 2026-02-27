@@ -9,4 +9,5 @@ members = [
     "chapter04/smart_cms/smartcms_test_host_chapter4",
     "chapter05/wasi_nn_example",
     "chapter06/hello-world-wasmcloud",
+    "chapter06/smart-cms",
 ]
